@@ -1,0 +1,32 @@
+#!/bin/bash
+
+OUT_DIR="out/target/product/alioth"
+BUILD_PACKAGE="$(find "$OUT_DIR" -name "PixelOS_alioth-14.0-*.zip" -print -quit)"
+
+gofile_upload() {
+    local FILE_PATH="$1"
+    local FILE_NAME="${FILE_PATH##*/}"
+
+    local response
+    response=$(curl -# -F "name=$FILE_NAME" -F "file=@$FILE_PATH" "https://store1.gofile.io/contents/uploadfile")
+
+    local UPLOAD_STATUS
+    UPLOAD_STATUS=$(echo "$response" | grep -Po '(?<="status":")[^"]*')
+
+    if [ "$UPLOAD_STATUS" = 'ok' ]; then
+        local URL_ID
+        URL_ID=$(echo "$response" | grep -Po '(?<="downloadPage":")[^"]*')
+
+        echo "Download: $URL_ID"
+    else
+        echo "Upload failed!"
+    fi
+}
+
+
+if [ -n "$BUILD_PACKAGE" ]; then
+    echo "Starting Upload..."
+    gofile_upload $BUILD_PACKAGE
+else
+    echo "Failed!"
+fi
