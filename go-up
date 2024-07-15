@@ -27,6 +27,7 @@ gofile_upload() {
 if [ -n "$BUILD_PACKAGE" ]; then
     echo "Starting Upload..."
     gofile_upload $BUILD_PACKAGE
+    grep -n "ro.system.build.date.utc" $OUT_DIR/system/system/build.prop
 else
     echo "Failed!"
 fi
