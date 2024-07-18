@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OUT_DIR="out/target/product/alioth"
-BUILD_PACKAGE="$(find "$OUT_DIR" -name "PixelOS_alioth-14.0-*.zip" -print -quit)"
+BUILD_PACKAGE="$(find "$OUT_DIR" -name "ProjectBlaze-3.6-alioth-*.zip" -print -quit)"
 
 gofile_upload() {
     local FILE_PATH="$1"
